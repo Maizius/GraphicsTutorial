@@ -1,11 +1,11 @@
-﻿// COMP30019 - Graphics and Interaction
-// (c) University of Melbourne, 2022
 
 using UnityEngine;
 
-public class XAxisSpin : MonoBehaviour
+public class YAxisMove : MonoBehaviour
 {
-    [SerializeField] private float spinSpeed = 10;
+    [SerializeField] private float moveSpeed = 10;
+    [SerializeField] private float range = 5;
+    private float dir = 1;
 
     // Update() is called once *per frame*. It is called *after* the Start()
     // method, which is only called once when the component is enabled for the
@@ -18,8 +18,9 @@ public class XAxisSpin : MonoBehaviour
     // - https://docs.unity3d.com/Manual/ExecutionOrder.html
     private void Update()
     {
-        var angle = this.spinSpeed * Time.deltaTime;
-        var axis = new Vector3(1.0f, 0.0f, 0.0f);
-        transform.localRotation *= Quaternion.AngleAxis(angle, axis);
+        if(Mathf.Abs(transform.localPosition.y) > range){
+            dir = -1 * Mathf.Sign(transform.localPosition.y);
+        }
+        transform.localPosition += (moveSpeed * Time.deltaTime * Vector3.up* dir);
     }
 }
